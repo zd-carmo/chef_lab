@@ -23,19 +23,16 @@ template "/etc/ssh/sshd_config" do
 end
 
 #If user does not exist create it and add the key
-if !node['etc']['passwd']['vagrant']
+vagrant_user_key = search("lab_environment_secrets", "users:vagrant")
 
-	vagrant_user_key = search("lab_environment_secrets", "users:vagrant")
+user 'vagrant' do
+	action :create
+	home '/home/vagrant'
+end
 
-	user 'vagrant' do
-		action :create
-	    home '/home/vagrant'
-	end
-
-	execute "adds pub key" do
-	  command "echo #{vagrant_user_key} >> /home/vagrant/.ssh/authorized_keys"
-	  not_if "grep #{vagrant_user_key} /home/vagrant/.ssh/authorized_keys"
-	end
+execute "adds pub key" do
+	command "echo #{vagrant_user_key} >> /home/vagrant/.ssh/authorized_keys"
+	not_if "grep #{vagrant_user_key} /home/vagrant/.ssh/authorized_keys"
 end
 
 #Create group
