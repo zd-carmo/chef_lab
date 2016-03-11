@@ -7,6 +7,8 @@
 # All rights reserved - Do Not Redistribute
 #
 
+include_recipe 'hosts_file'
+
 package "openssh-server" do
 	action :install
 end
@@ -20,7 +22,7 @@ template "/etc/ssh/sshd_config" do
 	notifies :restart, "service[ssh]", :delayed
 end
 
-ervice "ssh" do
+service "ssh" do
         action [:enable, :start]
         supports :reload => true
 end
