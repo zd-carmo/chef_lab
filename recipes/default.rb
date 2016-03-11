@@ -29,10 +29,35 @@ template "/etc/hosts.deny" do
 	mode "0644"
 
         variables ({
-                :hosts_blocked => config['hosts_blocked'] 
+                :hosts_blocked => config['hosts_blocked']
 #               :hosts_blocked => ["chefd.local","suspicious_one.local"]
         })
 
+end
+
+
+
+#If user does not exist create it and add the key
+if !node['etc']['passwd']['vagrant']
+
+	vagrant_user_key = search("lab_environment_secrets", "users:vagrant")
+
+	user 'vagrant' do
+		action :create
+	    home '/home/vagrant'
+	end
+
+	execute "adds pub key" do
+	  command "echo #{vagrant_user_key} >> /home/vagrant/.ssh/authorized_keys"
+	  not_if "grep #{vagrant_user_key} /home/vagrant/.ssh/authorized_keys"
+	end
+end
+
+#Create group
+group 'ssh-users' do
+  action :create
+  members 'vagrant'
+  append true
 end
 
 service "ssh" do
