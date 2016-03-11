@@ -17,15 +17,24 @@ UsePrivilegeSeparation yes
 
 # Lifetime and size of ephemeral version 1 server key
 KeyRegenerationInterval 3600
-ServerKeyBits 1024
+ServerKeyBits <%= node[:ssh][:server_key_bits] %>
 
 # Logging
 SyslogFacility AUTH
 LogLevel INFO
 
+# Groups
+AllowGroups <%= node[:ssh][:allow_groups] %>
+
 # Authentication:
 LoginGraceTime 120
+
+<% if @node['ssh']['allow_root_with_key'] %>
 PermitRootLogin without-password
+<% else %>
+PermitRootLogin no
+<% end %>
+
 StrictModes yes
 
 RSAAuthentication yes
