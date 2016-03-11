@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe 'hosts_file'
+include_recipe 'hosts_file.rb'
 
 package "openssh-server" do
 	action :install
