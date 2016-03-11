@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe 'hosts_file.rb'
+include_recipe 'lab_ssh_cookbook::hosts_file'
 
 package "openssh-server" do
 	action :install

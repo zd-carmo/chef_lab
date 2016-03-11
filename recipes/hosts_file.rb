@@ -1,4 +1,14 @@
 #
+# Cookbook Name:: lab_ssh_cookbook
+# Recipe:: hosts_file
+#
+# Copyright 2016, YOUR_COMPANY_NAME
+#
+# All rights reserved - Do Not Redistribute
+#
+
+
+#
 # allow/deny stuff 
 #
 # this should be moved to their own recipe
