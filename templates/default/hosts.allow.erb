@@ -1,0 +1,4 @@
+# managed by Chef
+
+sshd: <% @hosts_allowed.each do |host_a| %> <% if host_a != @hosts_allowed[0] -%>, <% end %> <%= host_a %> <% end %>
+
